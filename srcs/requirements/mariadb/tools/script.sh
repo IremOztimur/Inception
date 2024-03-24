@@ -13,6 +13,6 @@ mysql < db1.sql
 
 kill $(cat /var/run/mysqld/mysqld.pid)
 
-echo Successfull
-
 mysqld
+
+echo Successfull

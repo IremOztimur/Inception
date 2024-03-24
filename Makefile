@@ -16,5 +16,8 @@ status :
 	@docker ps
 	@docker images -a
 
+remove:
+	@sudo rm -rf /home/ioztimur/data/*
+
 logs:
 	cd ./srcs && docker-compose logs mariadb wordpress nginx
