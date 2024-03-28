@@ -25,13 +25,8 @@ re:
 	@docker-compose -f srcs/docker-compose.yml up --build
 
 clean:
-	@docker stop $$(docker ps -qa);\
-	docker rm $$(docker ps -qa);\
-	docker rmi -f $$(docker images -qa);\
-	docker volume rm $$(docker volume ls -q);\
-	docker network rm $$(docker network ls -q);\
-	rm -rf $(HOME)/data/wordpress
-	rm -rf $(HOME)/data/mariadb
+	@sudo rm -fr $(HOME)/data/wordpress
+	@sudo rm -fr $(HOME)/data/mariadb
 
 status :
 	@echo "$--------------------------------$(YELLOW)Containers$(RESET)------------------------------------------------------------------------------------------------"
@@ -42,5 +37,18 @@ status :
 	@echo "\n"
 	@echo "$--------$(YELLOW)Volumes$(RESET)-------"
 	@docker volume ls
+
+login:
+	@docker exec -it mariadb bash -c "mysql -u root -p'root12345'"
+
+show:
+	@docker exec -it mariadb bash -c "mysql -u root -p'root12345' -e 'SHOW DATABASES;'"
+
+logs:
+	cd ./srcs && docker-compose logs mariadb wordpress nginx
+
+delete:
+	@docker system prune -a
+	@docker volume prune -f
 
 .PHONY: all re down clean
